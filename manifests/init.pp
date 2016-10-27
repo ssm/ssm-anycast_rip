@@ -1,48 +1,67 @@
-# Class: bird
-# ===========================
+# Class 'anycast_rip'
 #
-# Full description of class bird here.
+# Configure bird and bird6 for anycast with rip
 #
-# Parameters
-# ----------
+# This class can be used to announce the availability of service IP
+# addresses on the host to the next router, using the RIP routing
+# protocol.  Whenever an IP address exists on the host, and it matches
+# one of the configured network prefixes, it is announced by the RIP
+# daemon.
 #
-# Document parameters here.
+# @example Declaring the class
+#   include anycast_rip
 #
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
+# @example Actually doing something useful
+#   class { 'anycast_rip':
+#     network_interface => 'team0',
+#     network_prefixes  => ['192.0.2.0/24', '2001:db8::/64'],
+#   }
 #
-# Variables
-# ----------
+# @param instances The bird instances to control
 #
-# Here you should define a list of variables that this module would require.
+# @param config_dir The path to the configuration directory
 #
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
+# @param config_file_owner The owner of the configuration files
 #
-# Examples
-# --------
+# @param config_file_group The group ownership of the configuration files
 #
-# @example
-#    class { 'bird':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
+# @param network_prefixes A list of IPv4 and IPv6 network prefixes
+#        used to filter IP addresses to announce.
 #
-# Authors
-# -------
+# @param network_interface The network interface to announce prefixes to
 #
-# Author Name <author@domain.com>
+# @param auth_password An optional password for authenticating with the next hop
 #
-# Copyright
-# ---------
-#
-# Copyright 2016 Your name here, unless otherwise noted.
-#
-class bird {
+class anycast_rip (
+  Array[Enum['bird', 'bird6']] $instances = ['bird', 'bird6'],
+  String $config_dir = '/etc/bird',
+  String $config_file_owner = 'root',
+  String $config_file_group = 'bird',
+  Array[String] $network_prefixes = [],
+  String $network_interface = 'lo',
+  Optional[String] $auth_password = undef,
+)
+{
 
+  validate_absolute_path($config_dir)
+
+  include anycast_rip::install
+
+  class { '::anycast_rip::config':
+    instances         => $instances,
+    config_dir        => $config_dir,
+    config_file_owner => $config_file_owner,
+    config_file_group => $config_file_group,
+    network_prefixes  => $network_prefixes,
+    network_interface => $network_interface,
+    auth_password     => $auth_password,
+  }
+
+  class { '::anycast_rip::service':
+    instances => $instances,
+  }
+
+  Class['anycast_rip::install'] -> Class['anycast_rip::config']
+  Class['anycast_rip::config'] ~> Class['anycast_rip::service']
 
 }

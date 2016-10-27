@@ -1,15 +1,14 @@
 {
-  "name": "ssm-bird",
+  "name": "ssm-anycast_rip",
   "version": "0.1.0",
   "author": "ssm",
   "summary": "Configure bird and bird6 for anycast with rip",
   "license": "Apache-2.0",
-  "source": "https://github.com/ssm/puppet-bird.git",
-  "project_page": "https://github.com/ssm/puppet-bird",
-  "issues_url": "https://github.com/ssm/puppet-bird/issues",
+  "source": "https://github.com/ssm/puppet-anycast_rip.git",
+  "project_page": "https://github.com/ssm/puppet-anycast_rip",
+  "issues_url": "https://github.com/ssm/puppet-anycast_rip/issues",
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
   ],
   "data_provider": null
 }
-
