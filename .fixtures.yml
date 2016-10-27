@@ -1,0 +1,5 @@
+fixtures:
+  forge_modules:
+    stdlib: "puppetlabs/stdlib"
+  symlinks:
+    anycast_rip: "#{source_dir}"
