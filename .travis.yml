@@ -8,3 +8,8 @@ rvm:
 script: bundle exec rake test
 env:
   - PUPPET_VERSION="~> 4.0"
+  - PUPPET_VERSION="~> 3.0" FUTURE_PARSER=yes
+matrix:
+  exclude:
+    - rvm: 2.3
+      env: PUPPET_VERSION='~> 3.0'
