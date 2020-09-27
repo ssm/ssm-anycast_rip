@@ -1,4 +1,5 @@
 # Configure bird and bird6 instances
+# @api private
 class anycast_rip::config (
   Array[Enum['bird', 'bird6']] $instances,
   String $config_dir,
