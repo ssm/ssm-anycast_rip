@@ -1,0 +1,2 @@
+---
+anycast_rip::config_dir: "/etc"
