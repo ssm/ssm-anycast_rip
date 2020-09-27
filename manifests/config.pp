@@ -1,16 +1,15 @@
 # Configure bird and bird6 instances
+# @api private
 class anycast_rip::config (
-  Array[Enum['bird', 'bird6']] $instances,
-  String $config_dir,
+  Stdlib::Absolutepath $config_dir,
   String $config_file_owner,
   String $config_file_group,
-  Array[String] $network_prefixes,
   String $network_interface,
   Optional[String] $auth_password,
+  Array[Enum['bird', 'bird6']] $instances,
+  Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]] $network_prefixes = [],
 )
 {
-
-  validate_absolute_path($config_dir)
 
   $instances.each |$instance| {
     file { "${config_dir}/${instance}.conf":
