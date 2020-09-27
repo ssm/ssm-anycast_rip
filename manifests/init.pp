@@ -34,16 +34,14 @@
 #
 class anycast_rip (
   Array[Enum['bird', 'bird6']] $instances = ['bird', 'bird6'],
-  String $config_dir = '/etc/bird',
+  Stdlib::Absolutepath $config_dir = '/etc/bird',
   String $config_file_owner = 'root',
   String $config_file_group = 'bird',
-  Array[String] $network_prefixes = [],
+  Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]] $network_prefixes = [],
   String $network_interface = 'lo',
   Optional[String] $auth_password = undef,
 )
 {
-
-  validate_absolute_path($config_dir)
 
   include anycast_rip::install
 
