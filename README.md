@@ -1,11 +1,5 @@
 # anycast_rip
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
-
-The README template below provides a starting point with details about what
-information to include in your README.
-
 ## Table of Contents
 
 1. [Description](#description)
@@ -19,87 +13,72 @@ information to include in your README.
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module
-is what they want.
+This module configures bird and bird6 for announcing anycast service
+addresses using the RIP routing protocol.
 
 ## Setup
 
-### What anycast_rip affects **OPTIONAL**
+### What anycast_rip affects
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
+This module configures geographically redundant service IP addresses
+within a multi-datacenter network. Clients will be routed to the
+closest data center announcing the service.
 
-If there's more that they should know about, though, this is the place to
-mention:
+The software used is `bird`. The configuration will announce IPV6 and
+IPv4 service addresses to be picked up by the closest router, and
+distributed within the network by another routing protocol (`OSPF` in
+this document, but other routing protocols will work).
 
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+This is typically combined on each host with `keepalived` using
+service health checks for only announcing services in working order.
 
-### Setup Requirements **OPTIONAL**
+And it uses RIP to do it. Deal with it. :-)
 
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
+### Setup Requirements
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
+* Establish a set of data centers for hosting services, with a routing
+  protocol between data centers. For this example, "OSPF", but other
+  routing protocols will also work.
 
 ### Beginning with anycast_rip
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+* Choose a network prefix for anycast service IP addresses.
+* Announce the route locally on all datacenters.
+* Configure routers to allow servers to announce service IP addresses
+  with RIP.
+* Permit the RIP received routes to be announced as OSPF routes.
+* Inspect the OSPF routes to see the CIDR ranges from each site.
+* Include this module, choosing
+* When a service is up, see the service IP being present in the OSPF
+  table from multiple sites. Clients will pick the closest.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
+Basic usage of the module: This will install the daemons and
+configuration, but will not announce any addresses:
 
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
+```puppet
+include anycast_rip
 ```
-### `pet::cat`
 
-#### Parameters
+Advanced example: Restrict to IPv6 only (IPv4 is obsolete and long
+gone by now, right?), announce to an external network interface, and
+add network prefixes for filtering service addresses to announce.
 
-##### `meow`
+Any local IP addresses within this prefix will be announced. Please
+use a separate network prefix from your interface link-local routes.
 
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+```puppet
+class { 'anycast_rip':
+  instances         => ['bird6'],
+  network_interface => 'team0',
+  network_prefixes  => ['2001:db8::/64'],
+}
 ```
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
+This module only configures RIP version 2, no other routing protocols.
 
 ## Development
 
