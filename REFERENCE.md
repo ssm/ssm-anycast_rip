@@ -6,10 +6,15 @@
 
 ### Classes
 
+#### Public Classes
+
 * [`anycast_rip`](#anycast_rip): Class 'anycast_rip'  Configure bird and bird6 for anycast with rip  This class can be used to announce the availability of service IP address
-* [`anycast_rip::config`](#anycast_ripconfig): Configure bird and bird6 instances
-* [`anycast_rip::install`](#anycast_ripinstall): Install the bird package
-* [`anycast_rip::service`](#anycast_ripservice): Manage the bird services.
+
+#### Private Classes
+
+* `anycast_rip::config`: Configure bird and bird6 instances
+* `anycast_rip::install`: Install the bird package
+* `anycast_rip::service`: Manage the bird services.
 
 ## Classes
 
@@ -56,7 +61,7 @@ Default value: `['bird', 'bird6']`
 
 ##### `config_dir`
 
-Data type: `String`
+Data type: `Stdlib::Absolutepath`
 
 The path to the configuration directory
 
@@ -80,7 +85,7 @@ Default value: `'bird'`
 
 ##### `network_prefixes`
 
-Data type: `Array[String]`
+Data type: `Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]]`
 
 A list of IPv4 and IPv6 network prefixes
 used to filter IP addresses to announce.
@@ -102,72 +107,4 @@ Data type: `Optional[String]`
 An optional password for authenticating with the next hop
 
 Default value: ``undef``
-
-### `anycast_rip::config`
-
-Configure bird and bird6 instances
-
-#### Parameters
-
-The following parameters are available in the `anycast_rip::config` class.
-
-##### `instances`
-
-Data type: `Array[Enum['bird', 'bird6']]`
-
-
-
-##### `config_dir`
-
-Data type: `String`
-
-
-
-##### `config_file_owner`
-
-Data type: `String`
-
-
-
-##### `config_file_group`
-
-Data type: `String`
-
-
-
-##### `network_prefixes`
-
-Data type: `Array[String]`
-
-
-
-##### `network_interface`
-
-Data type: `String`
-
-
-
-##### `auth_password`
-
-Data type: `Optional[String]`
-
-
-
-### `anycast_rip::install`
-
-Install the bird package
-
-### `anycast_rip::service`
-
-Manage the bird services.
-
-#### Parameters
-
-The following parameters are available in the `anycast_rip::service` class.
-
-##### `instances`
-
-Data type: `Array[String]`
-
-
 
