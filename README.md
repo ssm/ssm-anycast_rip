@@ -42,15 +42,16 @@ And it uses RIP to do it. Deal with it. :-)
 
 ### Beginning with anycast_rip
 
-* Choose a network prefix for anycast service IP addresses.
-* Announce the route locally on all datacenters.
+* Choose network prefixes for anycast service IP addresses.
+* Announce the prefixes locally on all datacenters.
 * Configure routers to allow servers to announce service IP addresses
-  with RIP.
+  with RIP within these prefixes.
 * Permit the RIP received routes to be announced as OSPF routes.
 * Inspect the OSPF routes to see the CIDR ranges from each site.
-* Include this module, choosing
-* When a service is up, see the service IP being present in the OSPF
-  table from multiple sites. Clients will pick the closest.
+* Include this module, configure network prefixes and interface.
+* When a service is up, see the service IP being present in the RIP
+  table on the host and the OSPF tables on routers from multiple
+  sites. Clients will pick the closest instance.
 
 ## Usage
 
