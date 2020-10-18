@@ -1,2 +1,3 @@
 ---
 anycast_rip::config_dir: "/etc/bird"
+anycast_rip::bird_major_version: v1

@@ -32,6 +32,9 @@
 #
 # @param auth_password An optional password for authenticating with the next hop
 #
+# @param bird_major_version The major version of the bird software.
+#        The configuration differ between v1 and v2+
+#
 class anycast_rip (
   Array[Enum['bird', 'bird6']] $instances = ['bird', 'bird6'],
   Stdlib::Absolutepath $config_dir = '/etc/bird',
@@ -40,19 +43,21 @@ class anycast_rip (
   Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]] $network_prefixes = [],
   String $network_interface = 'lo',
   Optional[String] $auth_password = undef,
+  Enum['v1', 'v2'] $bird_major_version = 'v2',
 )
 {
 
   include anycast_rip::install
 
   class { '::anycast_rip::config':
-    instances         => $instances,
-    config_dir        => $config_dir,
-    config_file_owner => $config_file_owner,
-    config_file_group => $config_file_group,
-    network_prefixes  => $network_prefixes,
-    network_interface => $network_interface,
-    auth_password     => $auth_password,
+    instances          => $instances,
+    config_dir         => $config_dir,
+    config_file_owner  => $config_file_owner,
+    config_file_group  => $config_file_group,
+    network_prefixes   => $network_prefixes,
+    network_interface  => $network_interface,
+    auth_password      => $auth_password,
+    bird_major_version => $bird_major_version,
   }
 
   class { '::anycast_rip::service':

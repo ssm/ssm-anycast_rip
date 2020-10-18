@@ -1,0 +1,4 @@
+# Facts used in the module
+---
+networking:
+  ip: "192.0.2.1"
