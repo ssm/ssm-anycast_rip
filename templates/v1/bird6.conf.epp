@@ -1,0 +1,38 @@
+<% |
+   Stdlib::IP::Address::V4 $router_id,
+   Array[Stdlib::IP::Address::V6::CIDR] $service_networks,
+   String $rip_interface,
+   Optional[String] $auth_password,
+   | -%>
+# BIRD IPv6 configuration file
+# This file is handled by puppet, local changes will be lost.
+
+log syslog { info, remote, warning, error, auth, fatal };
+
+router id <%= $router_id %>;
+
+protocol device {
+	primary "lo" ::1;
+}
+
+protocol direct {}
+
+protocol rip {
+  interface "<%= $rip_interface %>" {
+    mode nolisten;
+    ttl security on;
+  };
+  period 1;
+
+  <%- if $auth_password { -%>
+  authentication md5;
+  password "<%= $auth_password %>";
+  <%- } -%>
+
+  import none;
+
+  export filter {
+    <%=  $service_networks.map |$n| { "if net ~ ${n} then accept;" }.join("\n    ") %>
+    reject;
+  };
+}

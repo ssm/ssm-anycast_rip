@@ -21,22 +21,51 @@ describe 'anycast_rip::config' do
         }
       end
 
-      it { is_expected.to compile }
+      context 'bird v1' do
+        let(:params) do
+          super().merge(bird_major_version: 'v1')
+        end
 
-      it {
-        is_expected.to contain_file('/test/bird.conf')
-          .with_content(%r{192\.0\.2\.192/25\+})
-          .without_content(%r{2001:db8:1::/64\+})
-          .with_content(%r{interface "test0";})
-          .with_content(%r{password "test secret";})
-      }
-      it {
-        is_expected.to contain_file('/test/bird6.conf')
-          .with_content(%r{2001:db8:1::/64\+})
-          .without_content(%r{192\.0\.2\.192/25\+})
-          .with_content(%r{interface "test0";})
-          .with_content(%r{password "test secret";})
-      }
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_file('/test/bird.conf')
+            .with_content(%r{192\.0\.2\.192/25})
+            .without_content(%r{2001:db8:1::/64})
+            .with_content(%r{interface "test0"})
+            .with_content(%r{password "test secret";})
+        }
+        it {
+          is_expected.to contain_file('/test/bird6.conf')
+            .with_content(%r{2001:db8:1::/64})
+            .without_content(%r{192\.0\.2\.192/25})
+            .with_content(%r{interface "test0"})
+            .with_content(%r{password "test secret";})
+        }
+      end
+
+      context 'bird v2' do
+        let(:params) do
+          super().merge(bird_major_version: 'v2')
+        end
+
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_file('/test/bird.conf')
+            .with_content(%r{192\.0\.2\.192/25\+})
+            .without_content(%r{2001:db8:1::/64\+})
+            .with_content(%r{interface "test0";})
+            .with_content(%r{password "test secret";})
+        }
+        it {
+          is_expected.to contain_file('/test/bird6.conf')
+            .with_content(%r{2001:db8:1::/64\+})
+            .without_content(%r{192\.0\.2\.192/25\+})
+            .with_content(%r{interface "test0";})
+            .with_content(%r{password "test secret";})
+        }
+      end
     end
   end
 end

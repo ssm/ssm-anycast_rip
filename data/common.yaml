@@ -1,1 +1,2 @@
---- {}
+---
+anycast_rip::bird_major_version: v2
