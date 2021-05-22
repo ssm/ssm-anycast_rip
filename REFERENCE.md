@@ -18,7 +18,7 @@
 
 ## Classes
 
-### `anycast_rip`
+### <a name="anycast_rip"></a>`anycast_rip`
 
 Class 'anycast_rip'
 
@@ -49,9 +49,17 @@ class { 'anycast_rip':
 
 #### Parameters
 
-The following parameters are available in the `anycast_rip` class.
+The following parameters are available in the `anycast_rip` class:
 
-##### `instances`
+* [`instances`](#instances)
+* [`config_dir`](#config_dir)
+* [`config_file_owner`](#config_file_owner)
+* [`config_file_group`](#config_file_group)
+* [`network_prefixes`](#network_prefixes)
+* [`network_interface`](#network_interface)
+* [`auth_password`](#auth_password)
+
+##### <a name="instances"></a>`instances`
 
 Data type: `Array[Enum['bird', 'bird6']]`
 
@@ -59,7 +67,7 @@ The bird instances to control
 
 Default value: `['bird', 'bird6']`
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -67,7 +75,7 @@ The path to the configuration directory
 
 Default value: `'/etc/bird'`
 
-##### `config_file_owner`
+##### <a name="config_file_owner"></a>`config_file_owner`
 
 Data type: `String`
 
@@ -75,7 +83,7 @@ The owner of the configuration files
 
 Default value: `'root'`
 
-##### `config_file_group`
+##### <a name="config_file_group"></a>`config_file_group`
 
 Data type: `String`
 
@@ -83,7 +91,7 @@ The group ownership of the configuration files
 
 Default value: `'bird'`
 
-##### `network_prefixes`
+##### <a name="network_prefixes"></a>`network_prefixes`
 
 Data type: `Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]]`
 
@@ -92,7 +100,7 @@ used to filter IP addresses to announce.
 
 Default value: `[]`
 
-##### `network_interface`
+##### <a name="network_interface"></a>`network_interface`
 
 Data type: `String`
 
@@ -100,7 +108,7 @@ The network interface to announce prefixes to
 
 Default value: `'lo'`
 
-##### `auth_password`
+##### <a name="auth_password"></a>`auth_password`
 
 Data type: `Optional[String]`
 
