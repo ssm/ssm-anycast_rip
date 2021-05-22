@@ -1,6 +1,6 @@
 {
   "name": "ssm-anycast_rip",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "ssm",
   "summary": "Announce anycast service IP addresses with RIP, using bird and bird6",
   "license": "Apache-2.0",
