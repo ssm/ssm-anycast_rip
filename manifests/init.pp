@@ -38,6 +38,7 @@ class anycast_rip (
   String $config_file_owner = 'root',
   String $config_file_group = 'bird',
   Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]] $network_prefixes = [],
+  Stdlib::IP::Address::V4::Nosubnet $router_id = $facts['networking']['ip'],
   String $network_interface = 'lo',
   Optional[String] $auth_password = undef,
 )
@@ -50,6 +51,7 @@ class anycast_rip (
     config_dir        => $config_dir,
     config_file_owner => $config_file_owner,
     config_file_group => $config_file_group,
+    router_id         => $router_id,
     network_prefixes  => $network_prefixes,
     network_interface => $network_interface,
     auth_password     => $auth_password,
