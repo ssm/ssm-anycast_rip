@@ -3,7 +3,7 @@
    String $network_interface,
    Array[Stdlib::IP::Address::V4] $network_prefixes,
    Optional[String] $auth_password = undef,
-   | %>
+   | -%>
 # BIRD IPv4 configuration file
 # This file is handled by puppet, local changes will be lost.
 
@@ -19,14 +19,12 @@ protocol direct {}
 
 protocol rip {
   interface "<%= $network_interface -%>" {
-    mode nolisten;
     ttl security on;
   };
-  period 1;
 
   <%- if $auth_password { -%>
-  authentication md5;
-  password "<%= $auth_password -%>";
+  authentication cryptographic;
+  password "<%= $auth_password -%>" { algorithm hmac sha256; };
   <%- } -%>
 
   import none;

@@ -79,7 +79,8 @@ class { 'anycast_rip':
 
 ## Limitations
 
-This module only configures RIP version 2, no other routing protocols.
+This module only configures RIP version 2, no other routing protocols.  It
+works with bird version 1.6, but not with bird 2.0 and newer.
 
 ## Development
 
