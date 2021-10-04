@@ -1,0 +1,8 @@
+---
+default:
+  provisioner: docker
+  images:
+    - docker.io/litmusimage/centos:7
+    - docker.io/litmusimage/debian:10
+    - docker.io/litmusimage/ubuntu:18.04
+    - docker.io/litmusimage/ubuntu:20.04
