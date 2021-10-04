@@ -4,7 +4,6 @@ pp_default = <<-PUPPETCODE
   include anycast_rip
 PUPPETCODE
 
-
 describe 'Anycast RIP' do
   context 'defaults' do
     it do

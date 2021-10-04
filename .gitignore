@@ -15,7 +15,6 @@
 /junit/
 /log/
 /pkg/
-/spec/fixtures/litmus_inventory.yaml
 /spec/fixtures/manifests/
 /spec/fixtures/modules/
 /tmp/
@@ -26,3 +25,4 @@
 .project
 .envrc
 /inventory.yaml
+/spec/fixtures/litmus_inventory.yaml
