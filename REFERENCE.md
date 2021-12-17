@@ -58,6 +58,7 @@ The following parameters are available in the `anycast_rip` class:
 * [`network_prefixes`](#network_prefixes)
 * [`network_interface`](#network_interface)
 * [`auth_password`](#auth_password)
+* [`router_id`](#router_id)
 
 ##### <a name="instances"></a>`instances`
 
@@ -115,4 +116,12 @@ Data type: `Optional[String]`
 An optional password for authenticating with the next hop
 
 Default value: ``undef``
+
+##### <a name="router_id"></a>`router_id`
+
+Data type: `Stdlib::IP::Address::V4::Nosubnet`
+
+
+
+Default value: `$facts['networking']['ip']`
 
