@@ -41,12 +41,10 @@ class anycast_rip (
   Stdlib::IP::Address::V4::Nosubnet $router_id = $facts['networking']['ip'],
   String $network_interface = 'lo',
   Optional[String] $auth_password = undef,
-)
-{
-
+) {
   include anycast_rip::install
 
-  class { '::anycast_rip::config':
+  class { 'anycast_rip::config':
     instances         => $instances,
     config_dir        => $config_dir,
     config_file_owner => $config_file_owner,
@@ -57,11 +55,10 @@ class anycast_rip (
     auth_password     => $auth_password,
   }
 
-  class { '::anycast_rip::service':
+  class { 'anycast_rip::service':
     instances => $instances,
   }
 
   Class['anycast_rip::install'] -> Class['anycast_rip::config']
   Class['anycast_rip::config'] ~> Class['anycast_rip::service']
-
 }

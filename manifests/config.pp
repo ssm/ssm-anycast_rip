@@ -10,7 +10,6 @@ class anycast_rip::config (
   Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]] $network_prefixes = [],
   Stdlib::IP::Address::V4::Nosubnet $router_id,
 ) {
-
   $instances.each |$instance| {
     $template_parameters = {
       auth_password     => $auth_password,
@@ -19,7 +18,7 @@ class anycast_rip::config (
       network_prefixes  => $instance ? {
         'bird'  => $network_prefixes.filter |$net| { $net =~ Stdlib::IP::Address::V4 },
         'bird6' => $network_prefixes.filter |$net| { $net =~ Stdlib::IP::Address::V6 },
-      }
+      },
     }
     file { "${config_dir}/${instance}.conf":
       content => epp("anycast_rip/${instance}.conf.epp", $template_parameters),
