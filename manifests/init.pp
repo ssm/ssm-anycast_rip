@@ -28,6 +28,8 @@
 # @param network_prefixes A list of IPv4 and IPv6 network prefixes
 #        used to filter IP addresses to announce.
 #
+# @param router_id Router ID for this RIP instance
+#
 # @param network_interface The network interface to announce prefixes to
 #
 # @param auth_password An optional password for authenticating with the next hop
