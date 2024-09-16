@@ -51,16 +51,16 @@ class { 'anycast_rip':
 
 The following parameters are available in the `anycast_rip` class:
 
-* [`instances`](#instances)
-* [`config_dir`](#config_dir)
-* [`config_file_owner`](#config_file_owner)
-* [`config_file_group`](#config_file_group)
-* [`network_prefixes`](#network_prefixes)
-* [`network_interface`](#network_interface)
-* [`auth_password`](#auth_password)
-* [`router_id`](#router_id)
+* [`instances`](#-anycast_rip--instances)
+* [`config_dir`](#-anycast_rip--config_dir)
+* [`config_file_owner`](#-anycast_rip--config_file_owner)
+* [`config_file_group`](#-anycast_rip--config_file_group)
+* [`network_prefixes`](#-anycast_rip--network_prefixes)
+* [`router_id`](#-anycast_rip--router_id)
+* [`network_interface`](#-anycast_rip--network_interface)
+* [`auth_password`](#-anycast_rip--auth_password)
 
-##### <a name="instances"></a>`instances`
+##### <a name="-anycast_rip--instances"></a>`instances`
 
 Data type: `Array[Enum['bird', 'bird6']]`
 
@@ -68,7 +68,7 @@ The bird instances to control
 
 Default value: `['bird', 'bird6']`
 
-##### <a name="config_dir"></a>`config_dir`
+##### <a name="-anycast_rip--config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -76,7 +76,7 @@ The path to the configuration directory
 
 Default value: `'/etc/bird'`
 
-##### <a name="config_file_owner"></a>`config_file_owner`
+##### <a name="-anycast_rip--config_file_owner"></a>`config_file_owner`
 
 Data type: `String`
 
@@ -84,7 +84,7 @@ The owner of the configuration files
 
 Default value: `'root'`
 
-##### <a name="config_file_group"></a>`config_file_group`
+##### <a name="-anycast_rip--config_file_group"></a>`config_file_group`
 
 Data type: `String`
 
@@ -92,7 +92,7 @@ The group ownership of the configuration files
 
 Default value: `'bird'`
 
-##### <a name="network_prefixes"></a>`network_prefixes`
+##### <a name="-anycast_rip--network_prefixes"></a>`network_prefixes`
 
 Data type: `Array[Variant[Stdlib::IP::Address::V6::CIDR, Stdlib::IP::Address::V4::CIDR]]`
 
@@ -101,7 +101,15 @@ used to filter IP addresses to announce.
 
 Default value: `[]`
 
-##### <a name="network_interface"></a>`network_interface`
+##### <a name="-anycast_rip--router_id"></a>`router_id`
+
+Data type: `Stdlib::IP::Address::V4::Nosubnet`
+
+Router ID for this RIP instance
+
+Default value: `$facts['networking']['ip']`
+
+##### <a name="-anycast_rip--network_interface"></a>`network_interface`
 
 Data type: `String`
 
@@ -109,19 +117,11 @@ The network interface to announce prefixes to
 
 Default value: `'lo'`
 
-##### <a name="auth_password"></a>`auth_password`
+##### <a name="-anycast_rip--auth_password"></a>`auth_password`
 
 Data type: `Optional[String]`
 
 An optional password for authenticating with the next hop
 
-Default value: ``undef``
-
-##### <a name="router_id"></a>`router_id`
-
-Data type: `Stdlib::IP::Address::V4::Nosubnet`
-
-
-
-Default value: `$facts['networking']['ip']`
+Default value: `undef`
 
